@@ -193,10 +193,18 @@
 
     <script>
 
-      // auto-populating Hunt Type dropdown
+      /**
+       * Auto-populates Hunt Type dropdown
+       *
+       * This function uses google.script.run to call the server-side function
+       * getHuntTypeOptions(), which returns an array of options. Then it
+       * iterates over the array and creates an option element for each item
+       * in the array, appending the option element to the huntTypeDropdown
+       */
       function populateHuntTypeDropdown() {
         google.script.run.withSuccessHandler(function(options) {
           var huntTypeDropdown = document.getElementById('huntType');
+
           options.forEach(function(option) {
             var optionElement = document.createElement('option');
             optionElement.value = option;
@@ -206,10 +214,18 @@
         }).getHuntTypeOptions();
       }
 
-      // auto-populating Device Name dropdown
+      /**
+       * Auto-populates Device Name dropdown
+       *
+       * This function uses google.script.run to call the server-side function
+       * getDeviceNameOptions(), which returns an array of options. Then it
+       * iterates over the array and creates an option element for each item
+       * in the array, appending the option element to the deviceNameDropdown
+       */
       function populateDeviceNameDropdown() {
         google.script.run.withSuccessHandler(function(options) {
           var deviceNameDropdown = document.getElementById('deviceName');
+
           options.forEach(function(option) {
             var optionElement = document.createElement('option');
             optionElement.value = option;
@@ -219,24 +235,42 @@
         }).getDeviceNameOptions();
       }
 
-      // auto-populating Communicated Offer dropdown
+      /**
+       * Auto-populates Communicated Offer dropdown
+       *
+       * This function uses google.script.run to call the server-side function
+       * getCommunicatedOfferOptions(), which returns an array of options.
+       * Then it iterates over the array and creates an option element for
+       * each item in the array, appending the option element to the
+       * communicatedOfferDropdown.
+       */
       function populateCommunicatedOfferDropdown() {
         google.script.run.withSuccessHandler(function(options) {
           var communicatedOfferDropdown = document.getElementById('communicatedOffer');
+
           options.forEach(function(option) {
             var optionElement = document.createElement('option');
             optionElement.value = option;
             optionElement.textContent = option;
             communicatedOfferDropdown.appendChild(optionElement);
-            console.log(communicatedOfferDropdown.value);
           });
         }).getCommunicatedOfferOptions();
       }
 
-      // auto-populating Territory Name dropdown
+
+      /**
+       * Auto-populates Territory Name dropdown
+       *
+       * This function uses google.script.run to call the server-side function
+       * getTerritoryNameOptions(), which returns an array of options.
+       * Then it iterates over the array and creates an option element for
+       * each item in the array, appending the option element to the
+       * territoryNameDropdown.
+       */
       function populateTerritoryNameDropdown() {
         google.script.run.withSuccessHandler(function(options) {
           var territoryNameDropdown = document.getElementById('territoryName');
+
           options.forEach(function(option) {
             var optionElement = document.createElement('option');
             optionElement.value = option;
@@ -245,6 +279,7 @@
           });
         }).getTerritoryNameOptions();
       }
+
 
       // When technician selects an offer which contains the word "Referral"
       // then the Referrer Mobile Numer field will be mandatory otherwise it remains optional
@@ -344,10 +379,9 @@
 
 
 
-
-
-
-
+      /**
+       * Submits the form data to the server-side function
+       */
       function submitForm() {
         var year = document.getElementById('year').value;
         var month = document.getElementById('month').value;
@@ -368,6 +402,7 @@
         var technicianRemarks = document.getElementById('technicianRemarks').value;
         // Collect other form data similarly
 
+        // Prepend country code to the mobile numbers
         consumerMobileNumber = "88" + consumerMobileNumber;
         if (referralMobileNumber) {
           referralMobileNumber = "88" + referralMobileNumber;
