@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Hunt Tracker</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Premium Hunt Tracker</h1>
+    <!--<form id="huntForm">-->
+    <form id="huntForm" onsubmit="return submitForm(this);">
+        <label for="year">Year:</label>
+        <select id="year" required>
+            <option value="">Select Year</option>
+            <option value="2024">2024</option>
+            <option value="2025">2025</option>
+            <option value="2026">2026</option>
+            <option value="2027">2027</option>
+            <option value="2028">2028</option>
+            <option value="2029">2029</option>
+            <option value="2030">2030</option>
+        </select><br>
+
+        <label for="month">Month:</label>
+        <select id="month" required>
+            <option value="">Select Month</option>
+            <option value="January">January</option>
+            <option value="February">February</option>
+            <option value="March">March</option>
+            <option value="April">April</option>
+            <option value="May">May</option>
+            <option value="June">June</option>
+            <option value="July">July</option>
+            <option value="August">August</option>
+            <option value="September">September</option>
+            <option value="October">October</option>
+            <option value="November">November</option>
+            <option value="December">December</option>
+        </select><br>
+
+        <label for="huntType">Hunt Type:</label>
+        <select id="huntType" required>
+            <option value="">Select Hunt Type</option>
+            <!-- Auto populated from HuntType sheet -->
+        </select><br>
+
+        <label for="consumerName">Consumer Name:</label>
+        <input type="text" id="consumerName" required><br>
+
+        <label for="consumerMobile">Consumer Mobile Number:</label>
+        <input type="tel" id="consumerMobile" pattern="[0-9]{11}" required><br>
+
+        <label for="consumerAddress">Consumer Address:</label>
+        <input type="text" id="consumerAddress" required><br>
+
+        <label for="deviceName">Device Name:</label>
+        <select id="deviceName" required>
+            <option value="">Select Device Name</option>
+            <!-- Auto populated from DeviceName sheet -->
+        </select><br>
+
+        <label for="quantity">Quantity:</label>
+        <input type="text" id="quantity" pattern="[0-9]" maxlength="2" required><br>
+
+        <label for="communicatedOffer">Communicated Offer:</label>
+        <select id="communicatedOffer" required>
+            <option value="">Select Communicated Offer</option>
+            <!-- Auto populated from CommunicatedOffer sheet -->
+        </select><br>
+
+        <label for="referralMobile">Referral Mobile Number:</label>
+        <input type="tel" id="referralMobile" pattern="[0-9]{11}" ><br>
+
+        <label for="appointmentDateTime">Appointment Date and Time:</label>
+        <input type="datetime-local" id="appointmentDateTime" required><br>
+
+        <label for="territoryName">Territory Name:</label>
+        <select id="territoryName" required>
+            <option value="">Select Territory</option>
+            <!-- Auto populated from Territory sheet -->
+        </select><br>
+
+        <label for="lspName">LSP Name:</label>
+        <select id="lspName" required>
+            <option value="">Select LSP Name</option>
+            <!-- Cascading dropdown based on Territory selection -->
+        </select><br>
+
+        <label for="thanaName">Thana Name:</label>
+        <select id="thanaName" required>
+            <option value="">Select Thana Name</option>
+            <!-- Cascading dropdown based on LSP Name selection -->
+        </select><br>
+
+        <label for="tlName">TL Name:</label>
+        <select id="tlName" required>
+            <option value="">Select TL Name</option>
+            <!-- Auto populated from TLName sheet -->
+        </select><br>
+
+        <label for="technicianName">Technician Name:</label>
+        <input type="text" id="technicianName" required><br>
+
+        <label for="technicianRemarks">Technician Remarks:</label>
+        <input type="text" id="technicianRemarks"><br>
+
+        <!--<button onclick="submitForm()">Submit</button>-->
+        <button type="submit" id="submitButton" onclick="submitForm()">Submit</button>
+    </form>
+
+    <script src="scripts.js"></script>
+    
+</body>
+</html>
