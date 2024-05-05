@@ -58,7 +58,7 @@
         }
 
         button[type="submit"] {
-            background-color: #4caf50;
+            background-color: #413ea8;
             color: #fff;
             padding: 12px 20px;
             border: none;
@@ -68,7 +68,7 @@
         }
 
         button[type="submit"]:hover {
-            background-color: #45a049;
+            background-color: #2d2b75;
         }
 
         footer {
@@ -128,7 +128,7 @@
             <option value="" disabled selected>Select Year</option>
         </select><br>
 
-        <label for="month">Month:</label>
+        <!--<label for="month">Month:</label>
         <select id="month" required>
             <option value="" disabled selected>Select Month</option>
             <option value="January">January</option>
@@ -143,7 +143,13 @@
             <option value="October">October</option>
             <option value="November">November</option>
             <option value="December">December</option>
+        </select><br>-->
+
+        <label for="month">Month:</label>
+        <select id="month" required>
+            <!-- Options will be dynamically generated -->
         </select><br>
+
 
         <label for="huntType">Hunt Type:</label>
         <select id="huntType" placeholder="Enter Hunt Type" required>
@@ -216,7 +222,7 @@
     </form>
 
     <footer>
-        <p id="copyright">Company Name | All Rights Reserved</p>
+        <p id="copyright">Pureit Bangladesh | All Rights Reserved</p>
     </footer>
 
     <script>
@@ -227,7 +233,7 @@
       // Get the current year
       var currentYear = new Date().getFullYear();
 
-      // Add options for the current year and the next three years
+      // Add options for the current year and the two years (inclusive)
       for (var i = 0; i < 3; i++) {
         var option = document.createElement('option');
         option.value = currentYear + i;
@@ -236,13 +242,51 @@
       }
 
 
+      // Update months based on the year selected
+      // If current year is selected, it will show current month and onwards
+      // If future year is selected, it will show all 12 months
+      function populateMonthsDropdown() {
+        var yearDropdown = document.getElementById('year');
+        var selectedYear = parseInt(yearDropdown.value);
+        var currentMonth = new Date().getMonth(); // Get current month (0-indexed)
+        var monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+        var monthDropdown = document.getElementById('month');
+
+        // Clear existing options
+        monthDropdown.innerHTML = '';
+
+        // Add placeholder option
+        var placeholderOption = document.createElement('option');
+        placeholderOption.value = '';
+        placeholderOption.textContent = 'Select Month';
+        placeholderOption.disabled = true;
+        placeholderOption.selected = true;
+        monthDropdown.appendChild(placeholderOption);
+
+        // Create options based on the selected year
+        var startMonth = selectedYear === new Date().getFullYear() ? currentMonth : 0;
+        for (var i = startMonth; i < 12; i++) {
+          var option = document.createElement('option');
+          option.value = monthNames[i];
+          option.textContent = monthNames[i];
+          monthDropdown.appendChild(option);
+        }
+      }
+
+      // Call the function to populate the dropdown when the page loads
+      document.addEventListener('DOMContentLoaded', populateMonthsDropdown);
+
+      // Call populateMonthsDropdown when the value of the year dropdown changes
+      document.getElementById('year').addEventListener('change', populateMonthsDropdown);
+
+
+
       // Update the copyright year dynamically
       document.addEventListener('DOMContentLoaded', function() {
           var currentYear = new Date().getFullYear();
           var copyrightElement = document.getElementById('copyright');
           copyrightElement.textContent = "© " + currentYear + " " + copyrightElement.textContent;
       });
-
 
 
       // auto-populating Hunt Type dropdown
@@ -300,6 +344,7 @@
 
       // When technician selects an offer which contains the word "Referral"
       // then the Referrer Mobile Numer field will be mandatory otherwise it remains optional
+      // implemented in the final version
       function toggleReferralMobile() {
         var communicatedOfferDropdown = document.getElementById('communicatedOffer');
         var referralMobileInput = document.getElementById('referralMobile');
@@ -314,8 +359,9 @@
         }
         console.log(referralMobileInput.required)
       }
-
+      
       document.getElementById('communicatedOffer').addEventListener('change', toggleReferralMobile);
+
 
       // auto-populating LSP Name dropdown based on the value selected in the Territory Name dropown
       function populateLSPNameDropdown() {
@@ -346,7 +392,6 @@
 
       // call populateLSPNameDropdown when the value of the Territory dropdown changes
       document.getElementById('territoryName').addEventListener('change', populateLSPNameDropdown);
-
 
 
       function populateThanaDropdown() {
@@ -402,6 +447,34 @@
       };
 
       function submitForm() {
+        // Toggle referral mobile requirement based on the selected offer
+        toggleReferralMobile();
+
+        // Get references to the required fields
+        var requiredFields = ['year', 'month', 'huntType', 'consumerName', 'consumerMobile', 'consumerAddress', 'deviceName', 'quantity', 'communicatedOffer', 'appointmentDateTime', 'territoryName', 'lspName', 'thanaName', 'tlName', 'technicianName'];
+
+        // Add referralMobile to the requiredFields array if it's marked as required
+        var referralMobileInput = document.getElementById('referralMobile');
+        if (referralMobileInput.required) {
+          requiredFields.push('referralMobile');
+        }
+
+        // Check if all required fields are filled
+        var allFilled = true;
+        for (var i = 0; i < requiredFields.length; i++) {
+          var fieldValue = document.getElementById(requiredFields[i]).value.trim();
+          if (!fieldValue) {
+            allFilled = false;
+            break;
+          }
+        }
+
+        if (!allFilled) {
+          // If any required field is empty, display an error message and prevent form submission
+          alert("Please fill out all required fields.");
+          return;
+        }
+
         var year = document.getElementById('year').value;
         var month = document.getElementById('month').value;
         var huntType = document.getElementById('huntType').value;
@@ -419,18 +492,17 @@
         var tlName = document.getElementById('tlName').value;
         var technicianName = document.getElementById('technicianName').value;
         var technicianRemarks = document.getElementById('technicianRemarks').value;
-        // Collect other form data similarly
 
         consumerMobileNumber = "88" + consumerMobileNumber;
         if (referralMobileNumber) {
           referralMobileNumber = "88" + referralMobileNumber;
         } else{
-          referralMobileNumber = ''
+        referralMobileNumber = '';
         }
 
         // Call server-side function to submit form data
         google.script.run.submitFormData(year, month, huntType, consumerName, consumerMobileNumber, consumerAddress, deviceName, quantity, communicatedOffer, referralMobileNumber, appointmentDateTime, territoryName, lspName, thanaName, tlName, technicianName, technicianRemarks);
-        
+    
         // Disable the submit button to prevent multiple submissions
         var submitButton = document.getElementById('submitButton');
         submitButton.disabled = true;
