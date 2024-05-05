@@ -16,7 +16,7 @@
             text-align: center;
             margin-top: 20px;
             margin-bottom: 30px;
-            color: #333;
+            color: #2d2b75;
         }
 
         form {
@@ -51,6 +51,10 @@
             background-repeat: no-repeat;
             background-position: right 10px center;
             background-size: 12px;
+            
+        }
+        select option[disabled] {
+            color: #999; /* Greyed-out color for disabled options */
         }
 
         button[type="submit"] {
@@ -65,6 +69,17 @@
 
         button[type="submit"]:hover {
             background-color: #45a049;
+        }
+
+        footer {
+            text-align: center;
+            
+        }
+
+        footer p {
+            font-weight: bold;
+            font-size: 1em; /* Adjust font size as needed */
+            color: #2d2b75;
         }
 
         .error-message {
@@ -85,6 +100,10 @@
             body {
               font-size: 16px; /* Example: Set base font size */
             }
+
+            footer p {
+              font-size: 0.8em; /* Adjust font size for smaller screens */
+            }
         }
     </style>
 </head>
@@ -92,9 +111,9 @@
     <h1>Premium Hunt Tracker</h1>
     <!--<form id="huntForm">-->
     <form id="huntForm" onsubmit="return submitForm(this);">
-        <label for="year">Year:</label>
+        <!--<label for="year">Year:</label>
         <select id="year" required>
-            <option value="">Select Year</option>
+            <option value="" disabled selected>Select Year</option>
             <option value="2024">2024</option>
             <option value="2025">2025</option>
             <option value="2026">2026</option>
@@ -102,11 +121,16 @@
             <option value="2028">2028</option>
             <option value="2029">2029</option>
             <option value="2030">2030</option>
+        </select><br>-->
+
+        <label for="year">Year:</label>
+        <select id="year" required>
+            <option value="" disabled selected>Select Year</option>
         </select><br>
 
         <label for="month">Month:</label>
         <select id="month" required>
-            <option value="">Select Month</option>
+            <option value="" disabled selected>Select Month</option>
             <option value="January">January</option>
             <option value="February">February</option>
             <option value="March">March</option>
@@ -122,62 +146,62 @@
         </select><br>
 
         <label for="huntType">Hunt Type:</label>
-        <select id="huntType" required>
-            <option value="">Select Hunt Type</option>
+        <select id="huntType" placeholder="Enter Hunt Type" required>
+            <option value="" disabled selected>Select Hunt Type</option>
             <!-- Auto populated from HuntType sheet -->
         </select><br>
 
         <label for="consumerName">Consumer Name:</label>
-        <input type="text" id="consumerName" required><br>
+        <input type="text" id="consumerName" placeholder="Enter consumer name" required><br>
 
         <label for="consumerMobile">Consumer Mobile Number:</label>
-        <input type="tel" id="consumerMobile" pattern="[0-9]{11}" required><br>
+        <input type="tel" id="consumerMobile" placeholder="Enter consumer mobile number" pattern="[0-9]{11}" required><br>
 
         <label for="consumerAddress">Consumer Address:</label>
-        <input type="text" id="consumerAddress" required><br>
+        <input type="text" id="consumerAddress" placeholder="Enter consumer address"required><br>
 
         <label for="deviceName">Device Name:</label>
         <select id="deviceName" required>
-            <option value="">Select Device Name</option>
+            <option value="" disabled selected>Select Device Name</option>
             <!-- Auto populated from DeviceName sheet -->
         </select><br>
 
         <label for="quantity">Quantity:</label>
-        <input type="text" id="quantity" pattern="[0-9]" maxlength="2" required><br>
+        <input type="text" id="quantity" placeholder="Enter quantity" pattern="[0-9]" maxlength="2" required><br>
 
         <label for="communicatedOffer">Communicated Offer:</label>
         <select id="communicatedOffer" required>
-            <option value="">Select Communicated Offer</option>
+            <option value="" disabled selected>Select Communicated Offer</option>
             <!-- Auto populated from CommunicatedOffer sheet -->
         </select><br>
 
         <label for="referralMobile">Referral Mobile Number:</label>
-        <input type="tel" id="referralMobile" pattern="[0-9]{11}" ><br>
+        <input type="tel" id="referralMobile" placeholder="Enter referral mobile number" pattern="[0-9]{11}" ><br>
 
         <label for="appointmentDateTime">Appointment Date and Time:</label>
         <input type="datetime-local" id="appointmentDateTime" required><br>
 
         <label for="territoryName">Territory Name:</label>
         <select id="territoryName" required>
-            <option value="">Select Territory</option>
+            <option value="" disabled selected>Select Territory</option>
             <!-- Auto populated from Territory sheet -->
         </select><br>
 
         <label for="lspName">LSP Name:</label>
         <select id="lspName" required>
-            <option value="">Select LSP Name</option>
+            <option value="" disabled selected>Select LSP Name</option>
             <!-- Cascading dropdown based on Territory selection -->
         </select><br>
 
         <label for="thanaName">Thana Name:</label>
         <select id="thanaName" required>
-            <option value="">Select Thana Name</option>
+            <option value="" disabled selected>Select Thana Name</option>
             <!-- Cascading dropdown based on LSP Name selection -->
         </select><br>
 
         <label for="tlName">TL Name:</label>
         <select id="tlName" required>
-            <option value="">Select TL Name</option>
+            <option value="" disabled selected>Select TL Name</option>
             <!-- Auto populated from TLName sheet -->
         </select><br>
 
@@ -191,7 +215,35 @@
         <button type="submit" id="submitButton" onclick="submitForm()">Submit</button>
     </form>
 
+    <footer>
+        <p id="copyright">Company Name | All Rights Reserved</p>
+    </footer>
+
     <script>
+
+      // Get the select element
+      var yearSelect = document.getElementById('year');
+
+      // Get the current year
+      var currentYear = new Date().getFullYear();
+
+      // Add options for the current year and the next three years
+      for (var i = 0; i < 3; i++) {
+        var option = document.createElement('option');
+        option.value = currentYear + i;
+        option.textContent = currentYear + i;
+        yearSelect.appendChild(option);
+      }
+
+
+      // Update the copyright year dynamically
+      document.addEventListener('DOMContentLoaded', function() {
+          var currentYear = new Date().getFullYear();
+          var copyrightElement = document.getElementById('copyright');
+          copyrightElement.textContent = "© " + currentYear + " " + copyrightElement.textContent;
+      });
+
+
 
       // auto-populating Hunt Type dropdown
       function populateHuntTypeDropdown() {
@@ -280,6 +332,13 @@
               optionElement.textContent = option;
               console.log(optionElement.value);
               lspNameDropdown.appendChild(optionElement);
+              
+              // If there's only one option, auto-populate the Thana dropdown
+              // if (options.length === 1) {
+              //  populateThanaDropdown();
+              // } else {
+                // pass
+              // }
             });
           }).getLSPNameOptions(selectedTerritory);
         } 
@@ -341,7 +400,6 @@
         populateThanaDropdown();
         populateTLNameDropdown();
       };
-
 
       function submitForm() {
         var year = document.getElementById('year').value;
